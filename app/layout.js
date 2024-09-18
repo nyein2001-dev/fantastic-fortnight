@@ -1,5 +1,6 @@
 import "./globals.css";
 import StoreProvider from "@/components/Helper/StoreProvider";
+import SiteSetup from "@/components/Partials/SiteSetup";
 import Maintainance from "@/components/Helper/Maintainance";
 
 async function getData() {
@@ -71,6 +72,23 @@ export default async function RootLayout({ children }) {
       <body id="portal-root" suppressHydrationWarning={true}>
         <StoreProvider>
           <Maintainance maintenance={maintenance} />
+          <SiteSetup
+            data={{
+              setting,
+              categories,
+              languages,
+              currencies,
+              social_links,
+              localizations,
+              googleAnalytic,
+              tawkChat,
+              cookieConsent,
+              homepage_ads,
+              shoppage_ads,
+              shop_detail_ads,
+              footer,
+            }}
+          />
           {children}
         </StoreProvider>
       </body>
