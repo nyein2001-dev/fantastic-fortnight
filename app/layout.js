@@ -3,6 +3,8 @@ import StoreProvider from "@/components/Helper/StoreProvider";
 import SiteSetup from "@/components/Partials/SiteSetup";
 import TopBarSmallAnnounce from "@/components/Partials/TopBarSmallAnnounce";
 import Maintainance from "@/components/Helper/Maintainance";
+import FacebookPixel from "@/components/Helper/FacebookPixel";
+import { Suspense } from "react";
 
 async function getData() {
   try {
@@ -97,7 +99,12 @@ export default async function RootLayout({ children }) {
               languages={languages}
             />
           </header>
-          {children}
+          <main>
+            {children}
+            <Suspense fallback={null}>
+              <FacebookPixel />
+            </Suspense>
+          </main>
         </StoreProvider>
       </body>
     </html>
