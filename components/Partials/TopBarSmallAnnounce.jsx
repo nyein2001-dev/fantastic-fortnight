@@ -1,12 +1,75 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import DropDown from "@/components/Helper/DropDown";
 import { useDispatch } from "react-redux";
 import { changeCurrency } from "@/store/features/setup/setupSlice";
+import { getCookie, hasCookie, setCookie } from "cookies-next";
 
 function TopBarSmallAnnounce({ currencies, languages, settings }) {
   const dispatch = useDispatch();
   const changeCurrencyHandler = (value) => {
     dispatch(changeCurrency(value));
+  };
+
+  const [selectedLanguage, setLanguage] = useState(
+    languages && languages.length > 0 ? languages[0] : null
+  );
+  useEffect(() => {
+    let addScript = document.createElement("script");
+    addScript.setAttribute(
+      "src",
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    );
+    document.body.appendChild(addScript);
+    window.googleTranslateElementInit = googleTranslateElementInit;
+  }, []);
+
+  const googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "auto",
+        autoDisplay: false,
+      },
+      "google_translate_element"
+    );
+  };
+
+  useEffect(() => {
+    if (languages && languages.length > 0) {
+      if (hasCookie("googtrans")) {
+        const getCode = getCookie("googtrans").replace("/auto/", "");
+        const findItem = languages.find((item) => item.lang_code === getCode);
+        setLanguage(findItem);
+        if (getCode === "ar" || getCode === "he") {
+          document.body.setAttribute("dir", "rtl");
+        } else {
+          document.body.setAttribute("dir", "ltr");
+        }
+      } else {
+        setCookie("googtrans", decodeURI(`/auto/${languages[0].lang_code}`));
+        setLanguage(languages[0]);
+        if (
+          languages[0].lang_code === "ar" ||
+          languages[0].lang_code === "he"
+        ) {
+          document.body.setAttribute("dir", "rtl");
+        } else {
+          document.body.setAttribute("dir", "ltr");
+        }
+      }
+    }
+  }, [languages]);
+
+  const langChange = (value) => {
+    if (hasCookie("googtrans")) {
+      setCookie("googtrans", decodeURI(`/auto/${value.lang_code}`));
+      setLanguage(value);
+      window.location.reload(true);
+    } else {
+      setCookie("googtrans", `/auto/${value.lang_code}`);
+      setLanguage(value);
+      window.location.reload(true);
+    }
   };
 
   return (
@@ -82,6 +145,57 @@ function TopBarSmallAnnounce({ currencies, languages, settings }) {
                   <div className="flex rtl:space-x-reverse space-x-[6px] items-center">
                     <span className="text-base text-white font-medium">
                       {item.name}
+                    </span>
+                    <span>
+                      <svg
+                        width="9"
+                        height="6"
+                        viewBox="0 0 9 6"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          x="9.00391"
+                          y="1"
+                          width="6.36242"
+                          height="1.41387"
+                          transform="rotate(135 9.00391 1)"
+                          fill="white"
+                        />
+                        <rect
+                          x="4.5"
+                          y="5.5"
+                          width="6.36242"
+                          height="1.41387"
+                          transform="rotate(-135 4.5 5.5)"
+                          fill="white"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                )}
+              </DropDown>
+            </div>
+            <div className="rtl:space-x-reverse space-x-9 items-center flex notranslate">
+              <DropDown
+                width={150}
+                action={langChange}
+                datas={
+                  languages && languages.length > 0
+                    ? languages.map((item) => ({
+                        ...item,
+                        name: item.lang_name,
+                      }))
+                    : []
+                }
+                position="right"
+              >
+                {({ item }) => (
+                  <div className="flex rtl:space-x-reverse space-x-[6px] items-center">
+                    <span className="text-base text-white font-medium">
+                      {selectedLanguage
+                        ? selectedLanguage.lang_name
+                        : item.name}
                     </span>
                     <span>
                       <svg
