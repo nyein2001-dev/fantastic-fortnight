@@ -1,6 +1,7 @@
 import "./globals.css";
 import StoreProvider from "@/components/Helper/StoreProvider";
 import SiteSetup from "@/components/Partials/SiteSetup";
+import TopBarSmallAnnounce from "@/components/Partials/TopBarSmallAnnounce";
 import Maintainance from "@/components/Helper/Maintainance";
 
 async function getData() {
@@ -89,6 +90,13 @@ export default async function RootLayout({ children }) {
               footer,
             }}
           />
+          <header>
+            <TopBarSmallAnnounce
+              currencies={currencies}
+              settings={setting}
+              languages={languages}
+            />
+          </header>
           {children}
         </StoreProvider>
       </body>
