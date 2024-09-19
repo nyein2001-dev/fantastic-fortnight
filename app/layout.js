@@ -1,7 +1,7 @@
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import TopBarSmallAnnounce from "@/components/Partials/TopBarSmallAnnounce";
-// import AppHeader from "@/components/Partials/AppHeader";
+import AppHeader from "@/components/Partials/AppHeader";
 import AppFooter from "@/components/Partials/AppFooter";
 import "aos/dist/aos.css";
 import { ToastContainer } from "react-toastify";
@@ -102,12 +102,12 @@ export default async function RootLayout({ children }) {
                 settings={setting}
                 languages={languages}
               />
-              {/* <AppHeader
+              <AppHeader
                 languages={languages}
                 currencies={currencies}
                 settings={setting}
                 categories={categories}
-              /> */}
+              />
             </header>
             <main>
               {children}
