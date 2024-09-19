@@ -5,6 +5,7 @@ import TopBarSmallAnnounce from "@/components/Partials/TopBarSmallAnnounce";
 import Maintainance from "@/components/Helper/Maintainance";
 import FacebookPixel from "@/components/Helper/FacebookPixel";
 import { Suspense } from "react";
+import AppFooter from "@/components/Partials/AppFooter";
 
 async function getData() {
   try {
@@ -105,6 +106,7 @@ export default async function RootLayout({ children }) {
               <FacebookPixel />
             </Suspense>
           </main>
+          <footer>{<AppFooter />} </footer>
         </StoreProvider>
       </body>
     </html>
