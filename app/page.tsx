@@ -1,4 +1,5 @@
 import Categories from "@/components/Sections/Homepage/Categories";
+import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
 import { notFound } from "next/navigation";
 
 async function getData() {
@@ -17,6 +18,10 @@ export default async function Home() {
   return (
     <>
       <Categories datas={data?.categories} />
+      <RecommendedProduct
+        cardStyle="bg-black"
+        datas={data?.recommend_products}
+      />
     </>
   );
 }
