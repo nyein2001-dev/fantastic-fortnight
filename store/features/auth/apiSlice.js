@@ -66,18 +66,6 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    logout: builder.query({
-      query: () => ({
-        url: `user-logout`,
-      }),
-      async onQueryStarted(info, { dispatch }) {
-        toast.loading("Please Wait...", {
-          position: "top-right",
-          closeButton: true,
-        });
-        dispatch(userLoggedOut());
-      },
-    }),
     userRegister: builder.mutation({
       query: (data) => {
         const bodyFormData = new FormData();
@@ -132,6 +120,46 @@ export const authApi = apiSlice.injectEndpoints({
             isLoading: false,
             autoClose: 2000,
           });
+        }
+      },
+    }),
+    logout: builder.query({
+      query: () => ({
+        url: `user-logout`,
+      }),
+      async onQueryStarted(info, { queryFulfilled, dispatch }) {
+        const id = toast.loading("Please Wait...", {
+          position: "top-right",
+          closeButton: true,
+        });
+        try {
+          const data = await queryFulfilled;
+          if (data.meta.response.status === 200) {
+            toast.update(id, {
+              render: `logout Successfully`,
+              type: "success",
+              isLoading: false,
+              autoClose: 2000,
+            });
+            localStorage.removeItem("auth");
+            dispatch(userLoggedOut());
+          }
+        } catch (error) {
+          if (error?.data?.message) {
+            toast.update(id, {
+              render: `${error.data.message}`,
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
+          } else {
+            toast.update(id, {
+              render: `Error occurred!`,
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
+          }
         }
       },
     }),
