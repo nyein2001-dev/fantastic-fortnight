@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { siteSettings } from "@/store/features/setup/setupSlice";
 import { userLoggedIn } from "@/store/features/auth/authSlice";
+// time ago
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
@@ -13,6 +14,7 @@ import TawkTo from "next-tawkto";
 import Consent from "../Helper/Consent";
 if (typeof Node === "function" && Node.prototype) {
   const originalRemoveChild = Node.prototype.removeChild;
+  // @ts-ignore
   Node.prototype.removeChild = function (child) {
     if (child.parentNode !== this) {
       if (console) {
@@ -24,10 +26,12 @@ if (typeof Node === "function" && Node.prototype) {
       }
       return child;
     }
+    // @ts-ignore
     return originalRemoveChild.apply(this, arguments);
   };
 
   const originalInsertBefore = Node.prototype.insertBefore;
+  // @ts-ignore
   Node.prototype.insertBefore = function (newNode, referenceNode) {
     if (referenceNode && referenceNode.parentNode !== this) {
       if (console) {
@@ -39,6 +43,7 @@ if (typeof Node === "function" && Node.prototype) {
       }
       return newNode;
     }
+    // @ts-ignore
     return originalInsertBefore.apply(this, arguments);
   };
 }

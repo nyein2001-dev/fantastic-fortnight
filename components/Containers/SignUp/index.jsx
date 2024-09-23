@@ -210,7 +210,7 @@ function Index() {
             <a href="/terms-conditions" className="text-primary-blue">
               <StringLang string="terms and condition" />
             </a>{" "}
-            <StringLang string="in Alasmart" />
+            <StringLang string="in Improved Spoon" />
           </p>
         </div>
         {error?.agree

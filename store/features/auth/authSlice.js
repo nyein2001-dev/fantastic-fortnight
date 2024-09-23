@@ -7,21 +7,21 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {
-        userLoginIn: (state, action) => {
-            state.acccessToken = action.payload.acccessToken;
-            state.tokenExpire = action.payload.expiresin;
-            state.user = action.payload.user;
-        },
-        userLoggedOut: (state) => {
-            state.acccessToken = "";
-            state.tokenExpire = "";
-            state.user = undefined;
-        },
+  name: "auth",
+  initialState,
+  reducers: {
+    userLoggedIn: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      state.tokenExpire = action.payload.expiresIn;
+      state.user = action.payload.user;
     },
+    userLoggedOut: (state) => {
+      state.accessToken = "";
+      state.tokenExpire = "";
+      state.user = undefined;
+    },
+  },
 });
 
 export default authSlice.reducer;
-export const {userLoggedIn, userLoggedOut} = authSlice.actions;
+export const { userLoggedIn, userLoggedOut } = authSlice.actions;

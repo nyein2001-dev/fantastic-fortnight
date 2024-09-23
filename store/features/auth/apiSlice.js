@@ -1,8 +1,71 @@
 import { toast } from "react-toastify";
 import { apiSlice } from "../../api/apiSlice";
+import { userLoggedIn, userLoggedOut } from "./authSlice";
+// useRouter
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (data) => {
+        const bodyFormData = new FormData();
+        bodyFormData.append("email", data.email);
+        bodyFormData.append("password", data.password);
+        return {
+          url: "store-login",
+          method: "POST",
+          body: bodyFormData,
+          formData: true,
+        };
+      },
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        const id = toast.loading("Please Wait...", {
+          position: "top-right",
+          closeButton: true,
+        });
+        try {
+          const { data: result } = await queryFulfilled;
+          if (result["access_token"]) {
+            localStorage.setItem(
+              "auth",
+              JSON.stringify({
+                accessToken: result["access_token"],
+                expiresIn: result["expires_in"],
+                user: result.user,
+              })
+            );
+            dispatch(
+              userLoggedIn({
+                accessToken: result["access_token"],
+                expiresIn: result["expires_in"],
+                user: result.user,
+              })
+            );
+            toast.update(id, {
+              render: `Login Successfully`,
+              type: "success",
+              isLoading: false,
+              autoClose: 2000,
+            });
+          }
+        } catch ({ error }) {
+          if (error?.data?.message) {
+            toast.update(id, {
+              render: `${error.data.message}`,
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
+          } else {
+            toast.update(id, {
+              render: `Error occurred!`,
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
+          }
+        }
+      },
+    }),
     logout: builder.query({
       query: () => ({
         url: `user-logout`,
