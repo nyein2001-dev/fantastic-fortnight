@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
-// import {
-//   useAddWishListMutation,
-//   useDeleteWishListMutation,
-//   useLazyGetWishListQuery,
-// } from "@/store/features/wishlist/apiSlice";
+import {
+  useAddWishListMutation,
+  useDeleteWishListMutation,
+  useLazyGetWishListQuery,
+} from "@/store/features/wishlist/apiSlice";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import useCurrency from "@/hooks/useCurrency";
@@ -14,7 +14,7 @@ import useLanguage from "@/hooks/useLanguage";
 function ProductCard(props) {
   const router = useRouter();
   const isAuth = useSelector((state) => state.auth.accessToken);
-  const [getWishListQuery, { data }] = [null, {}]; //useLazyGetWishListQuery();
+  const [getWishListQuery, { data }] = useLazyGetWishListQuery();
   const {
     type = "col",
     thumbnail_image,
@@ -26,15 +26,15 @@ function ProductCard(props) {
     average_rating,
     id,
   } = props;
-  //   const [addWishList, { isLoading, isError, error }] = useAddWishListMutation();
-  //   const [deleteWishlist, { isLoading: deleting }] = useDeleteWishListMutation();
+  const [addWishList, { isLoading }] = useAddWishListMutation();
+  const [deleteWishlist] = useDeleteWishListMutation();
   const handleWishlist = (product) => {
     if (!!isAuth) {
-      //   if (data?.products?.find((item) => item?.slug === slug)) {
-      //     deleteWishlist({ product });
-      //   } else {
-      //     addWishList({ product });
-      //   }
+      if (data?.products?.find((item) => item?.slug === slug)) {
+        deleteWishlist({ product });
+      } else {
+        addWishList({ product });
+      }
     } else {
       router.push("/auth/signin");
     }
@@ -45,6 +45,7 @@ function ProductCard(props) {
       getWishListQuery();
     }
   }, [isAuth]);
+
   const calculatePrice = useCurrency();
   const language = useLanguage();
   if (type === "row") {
@@ -64,7 +65,7 @@ function ProductCard(props) {
             />
             <div className="absolute top-[6px] left-[6px]">
               <button
-                // disabled={isLoading}
+                disabled={isLoading}
                 onClick={() =>
                   handleWishlist({
                     thumbnail_image,
