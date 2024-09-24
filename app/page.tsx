@@ -1,4 +1,5 @@
 import Categories from "@/components/Sections/Homepage/Categories";
+import GiftCards from "@/components/Sections/Homepage/GiftCards";
 import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
 import SliderProducts from "@/components/Sections/Homepage/SliderProducts";
 import { notFound } from "next/navigation";
@@ -25,6 +26,14 @@ export default async function Home() {
         tag="Unlimited Offer"
         url={`/products?category=${data?.category_three?.category?.slug}`}
         className="bg-black pb-[60px]"
+      />
+      <GiftCards datas={data?.category_one} />
+      <SliderProducts
+        datas={data?.category_four}
+        title={data?.category_four?.category?.name}
+        tag="Unlimited Offer"
+        url={`/products?category=${data?.category_four?.category?.slug}`}
+        cardStyle="bg-black"
       />
       <RecommendedProduct
         cardStyle="bg-black"
