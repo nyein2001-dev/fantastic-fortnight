@@ -1,5 +1,6 @@
 import Categories from "@/components/Sections/Homepage/Categories";
 import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
+import SliderProducts from "@/components/Sections/Homepage/SliderProducts";
 import { notFound } from "next/navigation";
 
 async function getData() {
@@ -18,6 +19,13 @@ export default async function Home() {
   return (
     <>
       <Categories datas={data?.categories} />
+      <SliderProducts
+        datas={data?.category_three}
+        title={data?.category_three?.category?.name}
+        tag="Unlimited Offer"
+        url={`/products?category=${data?.category_three?.category?.slug}`}
+        className="bg-black pb-[60px]"
+      />
       <RecommendedProduct
         cardStyle="bg-black"
         datas={data?.recommend_products}
