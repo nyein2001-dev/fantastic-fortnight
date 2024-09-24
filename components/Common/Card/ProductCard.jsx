@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   useAddWishListMutation,
@@ -26,8 +26,8 @@ function ProductCard(props) {
     average_rating,
     id,
   } = props;
-  const [addWishList, { isLoading }] = useAddWishListMutation();
-  const [deleteWishlist] = useDeleteWishListMutation();
+  const [addWishList, { isLoading, isError, error }] = useAddWishListMutation();
+  const [deleteWishlist, { isLoading: deleting }] = useDeleteWishListMutation();
   const handleWishlist = (product) => {
     if (!!isAuth) {
       if (data?.products?.find((item) => item?.slug === slug)) {
@@ -45,7 +45,6 @@ function ProductCard(props) {
       getWishListQuery();
     }
   }, [isAuth]);
-
   const calculatePrice = useCurrency();
   const language = useLanguage();
   if (type === "row") {
