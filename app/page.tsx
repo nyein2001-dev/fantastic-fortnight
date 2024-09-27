@@ -1,7 +1,8 @@
 import Categories from "@/components/Sections/Homepage/Categories";
 import GiftCards from "@/components/Sections/Homepage/GiftCards";
-import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
 import SliderProducts from "@/components/Sections/Homepage/SliderProducts";
+import CounterSection from "@/components/Sections/Homepage/CounterSection";
+import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
 import { notFound } from "next/navigation";
 
 async function getData() {
@@ -14,7 +15,6 @@ async function getData() {
     return res?.json();
   }
 }
-
 export default async function Home() {
   const data = await getData();
   return (
@@ -35,6 +35,7 @@ export default async function Home() {
         url={`/products?category=${data?.category_four?.category?.slug}`}
         cardStyle="bg-black"
       />
+      <CounterSection datas={data?.counter} />
       <RecommendedProduct
         cardStyle="bg-black"
         datas={data?.recommend_products}
