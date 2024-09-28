@@ -1,7 +1,7 @@
 import Hero from "@/components/Sections/Homepage/Hero";
 import Categories from "@/components/Sections/Homepage/Categories";
 import GiftCards from "@/components/Sections/Homepage/GiftCards";
-// import BestSellingProduct from "@/components/Sections/Homepage/BestSellingProduct";
+import BestSellingProduct from "@/components/Sections/Homepage/BestSellingProduct";
 import SliderProducts from "@/components/Sections/Homepage/SliderProducts";
 import CounterSection from "@/components/Sections/Homepage/CounterSection";
 import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
@@ -30,7 +30,7 @@ export default async function Home() {
     <>
       <Hero datas={data?.slider_banners} />
       <Categories datas={data?.categories} />
-      {/* <BestSellingProduct datas={data?.trending} /> */}
+      <BestSellingProduct datas={data?.trending} />
       <SliderProducts
         datas={data?.category_three}
         title={data?.category_three?.category?.name}
