@@ -1,5 +1,7 @@
+import Hero from "@/components/Sections/Homepage/Hero";
 import Categories from "@/components/Sections/Homepage/Categories";
 import GiftCards from "@/components/Sections/Homepage/GiftCards";
+// import BestSellingProduct from "@/components/Sections/Homepage/BestSellingProduct";
 import SliderProducts from "@/components/Sections/Homepage/SliderProducts";
 import CounterSection from "@/components/Sections/Homepage/CounterSection";
 import RecommendedProduct from "@/components/Sections/Homepage/RecommendedProduct";
@@ -15,11 +17,20 @@ async function getData() {
     return res?.json();
   }
 }
+export async function generateMetadata() {
+  const { seo_setting } = await getData();
+  return {
+    title: seo_setting?.seo_title,
+    description: seo_setting?.seo_description,
+  };
+}
 export default async function Home() {
   const data = await getData();
   return (
     <>
+      <Hero datas={data?.slider_banners} />
       <Categories datas={data?.categories} />
+      {/* <BestSellingProduct datas={data?.trending} /> */}
       <SliderProducts
         datas={data?.category_three}
         title={data?.category_three?.category?.name}
