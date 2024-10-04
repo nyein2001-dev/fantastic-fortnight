@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 function Categories({ datas }) {
   if (datas && datas.length > 0) {
@@ -16,11 +15,9 @@ function Categories({ datas }) {
               >
                 <div className="flex flex-col space-y-2 items-center">
                   <div>
-                    <Image
-                      src={category.icon}
+                    <img
+                      src={process.env.BASE_URL + category.icon}
                       alt=""
-                      width={142}
-                      height={142}
                       className="transform scale-100 group-hover:scale-105 common-transition"
                     />
                   </div>

@@ -344,7 +344,7 @@ function AppHeader({ settings, categories, languages, currencies }) {
                                 <div className="flex items-center rtl:space-x-reverse space-x-6">
                                   <span className="icon">
                                     <img
-                                      src={item.icon}
+                                      src={process.env.BASE_URL + item.icon}
                                       alt=""
                                       className="w-6 h-6 object-contain"
                                     />
@@ -687,7 +687,7 @@ function AppHeader({ settings, categories, languages, currencies }) {
                           <div className="flex items-center rtl:space-x-reverse space-x-6">
                             <span>
                               <img
-                                src={item.icon}
+                                src={process.env.BASE_URL + item.icon}
                                 alt=""
                                 className="w-6 h-6 object-contain"
                               />
